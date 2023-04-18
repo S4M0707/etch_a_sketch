@@ -16,7 +16,7 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 100vh;
-    width: 80vb;
+    width: 100%;
 }
 
 .heading {
@@ -31,4 +31,49 @@ body {
 .heading p {
     font-size: 3vh;
     font-style: italic;
+    margin: 0;
+}
+
+.data {
+    display: flex;
+    justify-content: space-between;
+    width: 110vb;
+}
+
+.data .gridContainer {
+    border: 5px solid rgb(20, 46, 118);
+    height: 70vh;
+    width: 70vh;
+    background-color: #eeeeee;
+}
+
+.gridRow {
+    display: flex;
+    width: 100%;
+}
+
+.gridRow div {
+    border: 1px solid rgb(20, 46, 118);
+    background-color: #eeeeee;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.buttons > button {
+    font-size: 25px;
+    width: 20vh;
+    color: rgb(20, 46, 118);
+    font-weight: bold;
+    border: 2px solid rgb(20, 46, 118);
+    border-radius: 8px;
+    transition: transform 0.4s ease;
+}
+
+.buttons > button:hover {
+    transform: scale(1.06);
 }
