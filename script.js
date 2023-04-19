@@ -1,7 +1,8 @@
 // Toggles for different buttons.
-let togglePen = true;
+let togglePen = true;           // By default Pen is active
 let toggleRGB = false;
 let toggleEraser = false;
+let toggleDraw = false;
 
 // This function is buit to create the entire grid.
 const gridContainer = document.querySelector('.gridContainer');
@@ -14,16 +15,19 @@ function createGrid(n = 16) {
         let gridRow = document.createElement('div');
         gridRow.className = 'gridRow';
         gridRow.style.cssText = `height: ${100 / n}%;`;
+
         for (let j = 0; j < n; j++) {
-            let gridCell = document.createElement('div');
+            const gridCell = document.createElement('div');
             gridCell.className = `gridCell_${i}_${j}`;
             gridCell.style.cssText = `width: ${100 / n}%;`;
             gridRow.appendChild(gridCell);
         }
+
         gridContainer.appendChild(gridRow);
     }
 }
 
+// Function for the Event of clear button
 function clearCanvas(e) {
     const cells = document.querySelectorAll('.gridRow > div');
 
@@ -32,21 +36,19 @@ function clearCanvas(e) {
     });
 }
 
-let toggleDraw = false;
-gridContainer.addEventListener('click', () => { toggleDraw = !toggleDraw; });
-
+// To return the perticular color for different toggles
 function pickColor() {
-    if(togglePen) {
-        return 'rgb(20, 46, 118)';
+    if (togglePen) {
+        return 'black';
     }
-    if(toggleRGB) {
+    if (toggleRGB) {
         let r = (Math.floor(Math.random() * 1000)) % 256;
         let g = (Math.floor(Math.random() * 1000)) % 256;
         let b = (Math.floor(Math.random() * 1000)) % 256;
 
         return `rgb(${r}, ${g}, ${b})`;
     }
-    if(toggleEraser) {
+    if (toggleEraser) {
         return '#eeeeee';
     }
 }
@@ -54,16 +56,48 @@ function pickColor() {
 function draw() {
     const cells = document.querySelectorAll('.gridRow > div');
     cells.forEach((cell) => {
-        cell.addEventListener('mouseover', () => {
+        cell.addEventListener('mousedown', (e) => {
+            toggleDraw = true;
+            e.preventDefault()
+        });
+        cell.addEventListener('mouseup', (e) => {
+            toggleDraw = false;
+            e.preventDefault();
+        });
+        cell.addEventListener('mousemove', (e) => {
             if (toggleDraw) {
                 cell.style['background-color'] = pickColor();
             }
+            e.preventDefault();
         })
     });
 }
 
+// Initializing
 createGrid();
 draw();
+
+// Binding events to elements
+
+const sizeGrid = document.querySelector('.sizeGrid');
+sizeGrid.addEventListener('click', () => {
+    try {
+        let size = prompt("Enter the size of Grid between 1-100:");
+        size = parseInt(size);
+        console.log(size);
+
+        if(isNaN(size))
+            throw new Error("Not a Number");
+        if (size < 0 || size > 100)
+            throw new Error("Out of Limits");
+
+        createGrid(size);
+        draw();
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
 
 const pen = document.querySelector('.pen');
 pen.addEventListener('click', () => {
