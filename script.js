@@ -60,16 +60,22 @@ function draw() {
             toggleDraw = true;
             e.preventDefault()
         });
+
         cell.addEventListener('mouseup', (e) => {
             toggleDraw = false;
             e.preventDefault();
         });
+
         cell.addEventListener('mousemove', (e) => {
             if (toggleDraw) {
                 cell.style['background-color'] = pickColor();
             }
             e.preventDefault();
         })
+
+        cell.addEventListener('click', () => {
+            cell.style['background-color'] = pickColor();
+        });
     });
 }
 
